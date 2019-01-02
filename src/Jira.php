@@ -3,14 +3,16 @@ namespace SykesCottages\BranchPrune;
 
 use Exception;
 
-class Jira {
+class Jira
+{
 
     protected $connection;
     protected $url;
 
     protected $projectKey;
 
-    public function __construct(Connection $connection, Options $options) {
+    public function __construct(Connection $connection, Options $options)
+    {
         $this->connection = $connection;
         $this->url = getenv('JIRA_URL');
 
@@ -21,7 +23,8 @@ class Jira {
         $this->projectKey = $options->get('project-key');
     }
 
-    public function getOpenJiraIssues() {
+    public function getOpenJiraIssues()
+    {
         $project = $this->projectKey;
 
         $data = [
@@ -44,7 +47,7 @@ class Jira {
             throw new Exception("No Open issues, there needs to be at least one open");
         }
         $issues = [];
-        foreach($result->issues as $issue) {
+        foreach ($result->issues as $issue) {
             $issues[] = $issue->key;
         }
 

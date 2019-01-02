@@ -16,7 +16,7 @@ class Options
             throw new Exception("Missing config item '$key'");
         }
 
-        if($this->cache[$key] === false) {
+        if ($this->cache[$key] === false) {
             return true;
         }
 

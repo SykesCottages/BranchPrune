@@ -2,6 +2,7 @@
 namespace SykesCottages\BranchPrune\CodeManagers;
 
 use Exception;
+use SykesCottages\BranchPrune\BranchInfo;
 use SykesCottages\BranchPrune\CodeManager;
 use SykesCottages\BranchPrune\Connection;
 use SykesCottages\BranchPrune\Options;
@@ -34,20 +35,31 @@ class Bitbucket implements CodeManager
         $this->name = $options->get('project-name');
     }
 
-    public function getAllBranches()
+    /**
+     * @return BranchInfo[]
+     */
+    public function getAllBranches(): array
     {
-        return $this->connection->get(
+        $branches = $this->connection->get(
             $this->url . "{$this->key}/repos/{$this->name}/branches",
             [
                 'details' => true,
                 'limit' => 1000,
             ]
         );
+        $formattedBranches = [];
+        foreach ($branches->values as $branch) {
+            $branchInfo = new BranchInfo();
+            $branchInfo->name = $branch->displayId;
+            $branchInfo->commitRef = $branch->latestCommit;
+        }
+
+        return $formattedBranches;
     }
 
     public function deleteBranch(string $branchName)
     {
-       $data = [
+        $data = [
             'name' => "refs/heads/" . $branchName,
             'dryRun' => false
         ];
@@ -63,10 +75,10 @@ class Bitbucket implements CodeManager
             $this->branchUrl . "{$this->key}/repos/{$this->name}/branches/info/{$commit}"
         );
 
-        foreach($result->values as $branches) {
-           if ($branches->displayId == "master") {
+        foreach ($result->values as $branches) {
+            if ($branches->displayId == "master") {
                 return true;
-           }
+            }
         }
 
         return false;

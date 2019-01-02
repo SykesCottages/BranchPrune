@@ -29,7 +29,6 @@ class Curl extends Connection
         );
 
         return json_decode(curl_exec($this->handle));
-
     }
 
     public function post(string $url, array $postOptions, array $getOptions = [])
