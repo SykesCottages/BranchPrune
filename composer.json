@@ -1,0 +1,11 @@
+{
+    "require": {
+      "vlucas/phpdotenv": "^2.5",
+      "ext-json": "*"
+    },
+  "autoload": {
+    "psr-4": {
+      "SykesCottages\\BranchPrune\\": "src/"
+    }
+  }
+}
