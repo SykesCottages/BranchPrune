@@ -8,7 +8,7 @@ use SykesCottages\BranchPrune\Runner;
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 $dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
-$dotenv->load();
+$dotenv->overload();
 
 $connection = new Curl(getenv('USERNAME'), getenv('PASSWORD'));
 $options = new Options();
