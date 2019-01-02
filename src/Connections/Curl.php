@@ -1,10 +1,13 @@
 <?php
+
 namespace SykesCottages\BranchPrune\Connections;
+
 use SykesCottages\BranchPrune\Connection;
 
 class Curl extends Connection
 {
     protected $handle;
+
     public function __construct($username, $password)
     {
         parent::__construct($username, $password);
@@ -12,7 +15,7 @@ class Curl extends Connection
         $this->handle = curl_init();
     }
 
-    public function get($url, $getOptions = [])
+    public function get(string $url, array $getOptions = [])
     {
         curl_reset($this->handle);
         curl_setopt_array(
@@ -29,7 +32,7 @@ class Curl extends Connection
 
     }
 
-    public function post($url, $postOptions, $getOptions = [])
+    public function post(string $url, array $postOptions, array $getOptions = [])
     {
         curl_reset($this->handle);
         curl_setopt_array(
@@ -49,7 +52,7 @@ class Curl extends Connection
         return json_decode(curl_exec($this->handle));
     }
 
-    public function delete($url, $postOptions, $getOptions = [])
+    public function delete(string $url, array $postOptions, array $getOptions = [])
     {
         curl_reset($this->handle);
         curl_setopt_array(

@@ -6,19 +6,19 @@ abstract class Connection
     protected $username;
     protected $password;
 
-    public function __construct($username, $password)
+    public function __construct(string $username, string $password)
     {
         $this->username = $username;
         $this->password = $password;
     }
 
-    abstract public function get($url, $getOptions = []);
+    abstract public function get(string $url, array $getOptions = []);
 
-    abstract public function post($url, $postOptions, $getOptions = []);
+    abstract public function post(string $url, array $postOptions, array $getOptions = []);
 
-    abstract public function delete($url, $postOptions, $getOptions = []);
+    abstract public function delete(string $url, array $postOptions, array $getOptions = []);
 
-    protected function makeURL($url, $getOptions)
+    protected function makeURL(string $url, array $getOptions)
     {
         $parsed_url = parse_url($url);
 

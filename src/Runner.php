@@ -1,6 +1,6 @@
 <?php
-namespace SykesCottages\BranchPrune;
 
+namespace SykesCottages\BranchPrune;
 
 use Exception;
 
@@ -38,7 +38,6 @@ class Runner
         }
 
         $searchStrings = array_merge($issues, (array) $protectedBranches);
-
 
         try {
             $checkCodeOnMaster = !$this->options->get('remove-unmerged-check');

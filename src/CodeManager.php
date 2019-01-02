@@ -5,7 +5,7 @@ interface CodeManager
 {
     public function getAllBranches();
 
-    public function deleteBranch($branchName);
+    public function deleteBranch(string $branchName);
 
-    public function checkForCodeOnMaster($commit);
+    public function checkForCodeOnMaster(string $commit);
 }
