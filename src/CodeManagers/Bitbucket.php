@@ -45,7 +45,7 @@ class Bitbucket implements CodeManager
         );
     }
 
-    public function deleteBranch($branchName)
+    public function deleteBranch(string $branchName)
     {
        $data = [
             'name' => "refs/heads/" . $branchName,
@@ -57,7 +57,7 @@ class Bitbucket implements CodeManager
         return $this->connection->delete($url, $data) == null;
     }
 
-    public function checkForCodeOnMaster($commit)
+    public function checkForCodeOnMaster(string $commit)
     {
         $result = $this->connection->get(
             $this->branchUrl . "{$this->key}/repos/{$this->name}/branches/info/{$commit}"
