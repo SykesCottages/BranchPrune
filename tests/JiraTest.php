@@ -1,5 +1,7 @@
 <?php
+namespace SykesCottages\BranchPruneTest;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use SykesCottages\BranchPrune\Connection;
 use SykesCottages\BranchPrune\Jira;
