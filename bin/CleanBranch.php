@@ -18,4 +18,4 @@ $codeManager = new Bitbucket($connection, $options);
 
 $runner = new Runner($jira, $codeManager, $options);
 
-$runner ->cleanBranches();
+$runner->cleanBranches();
