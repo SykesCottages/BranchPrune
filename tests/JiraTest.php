@@ -9,15 +9,6 @@ use SykesCottages\BranchPrune\Options;
 
 class JiraTest extends TestCase
 {
-    public function testMissingOption()
-    {
-        $this->expectException(Exception::class);
-        $connection = $this->createMock(Connection::class);
-
-        $option = $this->createMock(Options::class);
-
-        new Jira($connection, $option);
-    }
 
     public function testMissingIssues()
     {

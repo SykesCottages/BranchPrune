@@ -21,10 +21,7 @@ class Bitbucket implements CodeManager
     {
         $this->connection = $connection;
 
-        $url = $_ENV['BITBUCKET_URL'];
-        if (!$url) {
-            throw new Exception("Missing env var BITBUCKET_URL");
-        }
+        $url = $options->environment('BITBUCKET_URL');
         $url = rtrim($url, '/');
 
         $this->url = $url . '/api/1.0/projects/';
@@ -48,10 +45,13 @@ class Bitbucket implements CodeManager
             ]
         );
         $formattedBranches = [];
+
         foreach ($branches->values as $branch) {
             $branchInfo = new BranchInfo();
             $branchInfo->name = $branch->displayId;
             $branchInfo->commitRef = $branch->latestCommit;
+
+            $formattedBranches[] = $branchInfo;
         }
 
         return $formattedBranches;

@@ -14,11 +14,7 @@ class Jira
     public function __construct(Connection $connection, Options $options)
     {
         $this->connection = $connection;
-        $this->url = getenv('JIRA_URL');
-
-        if (!$this->url) {
-            throw new Exception("Missing env var JIRA_URL");
-        }
+        $this->url = $options->environment('JIRA_URL');
 
         $this->projectKey = $options->get('project-key');
     }

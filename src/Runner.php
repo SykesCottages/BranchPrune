@@ -34,9 +34,11 @@ class Runner
             return "$a-";
         }, $issues);
 
-        $protectedBranches = getenv('IGNORE_BRANCH');
-        if ($protectedBranches) {
+        try {
+            $protectedBranches = $this->options->environment('IGNORE_BRANCH');
             $protectedBranches = explode(',', $protectedBranches);
+        } catch (Exception $exception) {
+            $protectedBranches = [];
         }
 
         $searchStrings = array_merge($issues, (array) $protectedBranches);

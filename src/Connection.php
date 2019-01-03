@@ -21,8 +21,13 @@ abstract class Connection
     protected function makeURL(string $url, array $getOptions)
     {
         $parsed_url = parse_url($url);
+        $query = [];
+        $parsed_url['query'] = isset($parsed_url['query']) ? parse_str($parsed_url['query'], $query) : [];
 
-        $parsed_url['query'] = isset($parsed_url['query']) ? parse_str($parsed_url['query']) : [];
+        if ($query) {
+            $parsed_url['query'] = $query;
+        }
+
         $parsed_url['query'] = array_merge($parsed_url['query'], $getOptions);
         $parsed_url['query'] = http_build_query($parsed_url['query']);
 
