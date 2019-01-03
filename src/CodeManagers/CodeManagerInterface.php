@@ -1,8 +1,10 @@
 <?php
 
-namespace SykesCottages\BranchPrune;
+namespace SykesCottages\BranchPrune\CodeManagers;
 
-interface CodeManager
+use SykesCottages\BranchPrune\BranchInfo;
+
+interface CodeManagerInterface
 {
     /** @return BranchInfo[] */
     public function getAllBranches(): array;

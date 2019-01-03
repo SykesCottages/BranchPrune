@@ -3,17 +3,17 @@
 namespace SykesCottages\BranchPrune;
 
 use Exception;
+use SykesCottages\BranchPrune\CodeManagers\CodeManagerInterface;
 use SykesCottages\BranchPrune\IssueTracker\IssueProviderInterface;
 
 class Runner
 {
-
     /**
      * @var IssueProviderInterface
      */
     private $issueProvider;
     /**
-     * @var CodeManager
+     * @var CodeManagerInterface
      */
     private $manager;
     /**
@@ -21,7 +21,7 @@ class Runner
      */
     private $options;
 
-    public function __construct(IssueProviderInterface $issueProvider, CodeManager $manager, Options $options)
+    public function __construct(IssueProviderInterface $issueProvider, CodeManagerInterface $manager, Options $options)
     {
         $this->issueProvider = $issueProvider;
         $this->manager = $manager;

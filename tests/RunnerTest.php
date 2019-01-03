@@ -5,7 +5,7 @@ namespace SykesCottages\BranchPruneTest;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SykesCottages\BranchPrune\BranchInfo;
-use SykesCottages\BranchPrune\CodeManager;
+use SykesCottages\BranchPrune\CodeManagers\CodeManagerInterface;
 use SykesCottages\BranchPrune\IssueTracker\IssueProviderInterface;
 use SykesCottages\BranchPrune\Options;
 use SykesCottages\BranchPrune\Runner;
@@ -26,7 +26,7 @@ class RunnerTest extends TestCase
         parent::setUp();
 
         $this->issueProvider = $this->createMock(IssueProviderInterface::class);
-        $this->manager = $this->createMock(CodeManager::class);
+        $this->manager = $this->createMock(CodeManagerInterface::class);
         $this->options = $this->createMock(Options::class);
 
         $this->runner = new Runner($this->issueProvider, $this->manager, $this->options);

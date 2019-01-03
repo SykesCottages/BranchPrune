@@ -2,13 +2,11 @@
 
 namespace SykesCottages\BranchPrune\CodeManagers;
 
-use Exception;
 use SykesCottages\BranchPrune\BranchInfo;
-use SykesCottages\BranchPrune\CodeManager;
 use SykesCottages\BranchPrune\Connection;
 use SykesCottages\BranchPrune\Options;
 
-class Bitbucket implements CodeManager
+class Bitbucket implements CodeManagerInterface
 {
 
     protected $url;
