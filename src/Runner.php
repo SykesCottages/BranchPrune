@@ -27,14 +27,18 @@ class Runner
         $this->options = $options;
     }
 
-    function cleanBranches()
+    public function cleanBranches()
     {
         $issues = $this->jira->getOpenJiraIssues();
-        $issues = array_map(function ($a){ return "$a-"; }, $issues);
+        $issues = array_map(function ($a) {
+            return "$a-";
+        }, $issues);
 
-        $protectedBranches = getenv('IGNORE_BRANCH');
-        if ($protectedBranches) {
+        try {
+            $protectedBranches = $this->options->environment('IGNORE_BRANCH');
             $protectedBranches = explode(',', $protectedBranches);
+        } catch (Exception $exception) {
+            $protectedBranches = [];
         }
 
         $searchStrings = array_merge($issues, (array) $protectedBranches);
@@ -45,22 +49,19 @@ class Runner
             $checkCodeOnMaster = true;
         }
 
-        foreach($this->manager->getAllBranches()->values as $branch) {
-            if (
-                $branch->displayId != "master" &&
-                str_replace($searchStrings, '', $branch->displayId) == $branch->displayId &&
-                (!$checkCodeOnMaster || $this->manager->checkForCodeOnMaster($branch->latestCommit) )
+        foreach ($this->manager->getAllBranches() as $branch) {
+            if ($branch->name != "master" &&
+                str_replace($searchStrings, '', $branch->name) == $branch->name &&
+                (!$checkCodeOnMaster || $this->manager->checkForCodeOnMaster($branch->commitRef) )
             ) {
-
-                echo "Deleting $branch->displayId\n";
+                echo "Deleting $branch->name\n";
 
                 try {
                     $this->options->get('dry-run');
                 } catch (Exception $exception) {
-                    $this->manager->deleteBranch($branch->displayId);
+                    $this->manager->deleteBranch($branch->name);
                 }
             }
         }
     }
-
 }
