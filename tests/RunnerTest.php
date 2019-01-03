@@ -1,18 +1,19 @@
 <?php
+
 namespace SykesCottages\BranchPruneTest;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SykesCottages\BranchPrune\BranchInfo;
 use SykesCottages\BranchPrune\CodeManager;
-use SykesCottages\BranchPrune\Jira;
+use SykesCottages\BranchPrune\IssueTracker\IssueProviderInterface;
 use SykesCottages\BranchPrune\Options;
 use SykesCottages\BranchPrune\Runner;
 
 class RunnerTest extends TestCase
 {
     /** @var MockObject */
-    protected $jira;
+    protected $issueProvider;
     /** @var MockObject */
     protected $manager;
     /** @var MockObject */
@@ -20,77 +21,84 @@ class RunnerTest extends TestCase
     /** @var Runner */
     protected $runner;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->jira = $this->createMock(Jira::class);
+        $this->issueProvider = $this->createMock(IssueProviderInterface::class);
         $this->manager = $this->createMock(CodeManager::class);
         $this->options = $this->createMock(Options::class);
 
-        $this->runner = new Runner($this->jira, $this->manager, $this->options);
+        $this->runner = new Runner($this->issueProvider, $this->manager, $this->options);
     }
 
-    public function testCleanBranches()
+    public function testCleanBranches(): void
     {
-
-        $this->jira->method('getOpenJiraIssues')
-           ->willReturn(['test']);
+        $this->issueProvider
+            ->method('getOpenIssues')
+            ->willReturn(['test']);
 
         $branchInfo = new BranchInfo();
         $branchInfo->name = 'test';
         $branchInfo->commitRef = 'abc';
 
-        $this->manager->method('getAllBranches')
-           ->willReturn([$branchInfo]);
+        $this->manager
+            ->method('getAllBranches')
+            ->willReturn([$branchInfo]);
 
-        $this->manager->method('deleteBranch')
-           ->with('test');
+        $this->manager
+            ->method('deleteBranch')
+            ->with('test');
 
 
         $this->assertNull($this->runner->cleanBranches());
     }
 
-    public function testNoIgnoreBranch()
+    public function testNoIgnoreBranch(): void
     {
         $this->options->method('environment')->willThrowException(new \Exception());
 
-        $this->jira->method('getOpenJiraIssues')
+        $this->issueProvider->method('getOpenIssues')
             ->willReturn(['test']);
 
         $branchInfo = new BranchInfo();
         $branchInfo->name = 'test';
         $branchInfo->commitRef = 'abc';
 
-        $this->manager->method('getAllBranches')
+        $this->manager
+            ->method('getAllBranches')
             ->willReturn([$branchInfo]);
 
-        $this->manager->method('deleteBranch')
+        $this->manager
+            ->method('deleteBranch')
             ->with('test');
 
 
         $this->assertNull($this->runner->cleanBranches());
     }
 
-    public function testUnmergedCode()
+    public function testUnmergedCode(): void
     {
-        $this->options->method('get')
+        $this->options
+            ->method('get')
             ->with('remove-unmerged-check')
             ->willThrowException(new \Exception());
 
-        $this->jira->method('getOpenJiraIssues')
+        $this->issueProvider
+            ->method('getOpenIssues')
             ->willReturn(['test']);
 
         $branchInfo = new BranchInfo();
         $branchInfo->name = 'test';
         $branchInfo->commitRef = 'abc';
 
-        $this->manager->method('getAllBranches')
+        $this->manager
+            ->method('getAllBranches')
             ->willReturn([$branchInfo]);
 
-        $this->manager->method('deleteBranch')
+        $this->manager
+            ->method('deleteBranch')
             ->with('test');
-
 
         $this->assertNull($this->runner->cleanBranches());
     }

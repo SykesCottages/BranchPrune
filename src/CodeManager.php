@@ -1,4 +1,5 @@
 <?php
+
 namespace SykesCottages\BranchPrune;
 
 interface CodeManager
@@ -6,7 +7,7 @@ interface CodeManager
     /** @return BranchInfo[] */
     public function getAllBranches(): array;
 
-    public function deleteBranch(string $branchName);
+    public function deleteBranch(string $branchName): bool;
 
-    public function checkForCodeOnMaster(string $commit);
+    public function checkForCodeOnMaster(string $commit): bool;
 }

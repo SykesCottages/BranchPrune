@@ -1,9 +1,11 @@
 <?php
-namespace SykesCottages\BranchPrune;
+namespace SykesCottages\BranchPrune\IssueTracker;
 
 use Exception;
+use SykesCottages\BranchPrune\Connection;
+use SykesCottages\BranchPrune\Options;
 
-class Jira
+class Jira implements IssueProviderInterface
 {
 
     protected $connection;
@@ -19,7 +21,7 @@ class Jira
         $this->projectKey = $options->get('project-key');
     }
 
-    public function getOpenJiraIssues()
+    public function getOpenIssues(): array
     {
         $project = $this->projectKey;
 
