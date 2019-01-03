@@ -6,6 +6,7 @@ use Exception;
 class Options
 {
     private $cache;
+
     public function get(string $key): string
     {
         if (!$this->cache) {

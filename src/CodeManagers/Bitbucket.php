@@ -1,13 +1,12 @@
 <?php
+
 namespace SykesCottages\BranchPrune\CodeManagers;
 
-use Exception;
 use SykesCottages\BranchPrune\BranchInfo;
-use SykesCottages\BranchPrune\CodeManager;
 use SykesCottages\BranchPrune\Connection;
 use SykesCottages\BranchPrune\Options;
 
-class Bitbucket implements CodeManager
+class Bitbucket implements CodeManagerInterface
 {
 
     protected $url;
@@ -57,19 +56,20 @@ class Bitbucket implements CodeManager
         return $formattedBranches;
     }
 
-    public function deleteBranch(string $branchName)
+    public function deleteBranch(string $branchName): bool
     {
         $data = [
             'name' => "refs/heads/" . $branchName,
             'dryRun' => false
         ];
-        $url =  $this->branchUrl . "{$this->key}/repos/{$this->name}/branches";
+
+        $url = $this->branchUrl . "{$this->key}/repos/{$this->name}/branches";
 
         //null is good and means it worked!
         return $this->connection->delete($url, $data) == null;
     }
 
-    public function checkForCodeOnMaster(string $commit)
+    public function checkForCodeOnMaster(string $commit): bool
     {
         $result = $this->connection->get(
             $this->branchUrl . "{$this->key}/repos/{$this->name}/branches/info/{$commit}"

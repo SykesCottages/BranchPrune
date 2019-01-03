@@ -3,16 +3,17 @@
 namespace SykesCottages\BranchPrune;
 
 use Exception;
+use SykesCottages\BranchPrune\CodeManagers\CodeManagerInterface;
+use SykesCottages\BranchPrune\IssueTracker\IssueProviderInterface;
 
 class Runner
 {
-
     /**
-     * @var Jira
+     * @var IssueProviderInterface
      */
-    private $jira;
+    private $issueProvider;
     /**
-     * @var CodeManager
+     * @var CodeManagerInterface
      */
     private $manager;
     /**
@@ -20,16 +21,16 @@ class Runner
      */
     private $options;
 
-    public function __construct(Jira $jira, CodeManager $manager, Options $options)
+    public function __construct(IssueProviderInterface $issueProvider, CodeManagerInterface $manager, Options $options)
     {
-        $this->jira = $jira;
+        $this->issueProvider = $issueProvider;
         $this->manager = $manager;
         $this->options = $options;
     }
 
-    public function cleanBranches()
+    public function cleanBranches(): void
     {
-        $issues = $this->jira->getOpenJiraIssues();
+        $issues = $this->issueProvider->getOpenIssues();
         $issues = array_map(function ($a) {
             return "$a-";
         }, $issues);
@@ -41,7 +42,7 @@ class Runner
             $protectedBranches = [];
         }
 
-        $searchStrings = array_merge($issues, (array) $protectedBranches);
+        $searchStrings = array_merge($issues, (array)$protectedBranches);
 
         try {
             $checkCodeOnMaster = !$this->options->get('remove-unmerged-check');
@@ -52,7 +53,7 @@ class Runner
         foreach ($this->manager->getAllBranches() as $branch) {
             if ($branch->name != "master" &&
                 str_replace($searchStrings, '', $branch->name) == $branch->name &&
-                (!$checkCodeOnMaster || $this->manager->checkForCodeOnMaster($branch->commitRef) )
+                (!$checkCodeOnMaster || $this->manager->checkForCodeOnMaster($branch->commitRef))
             ) {
                 echo "Deleting $branch->name\n";
 

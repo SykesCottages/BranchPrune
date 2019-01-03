@@ -1,7 +1,7 @@
 <?php
 use SykesCottages\BranchPrune\CodeManagers\Bitbucket;
 use SykesCottages\BranchPrune\Connections\Curl;
-use SykesCottages\BranchPrune\Jira;
+use SykesCottages\BranchPrune\IssueTracker\Jira;
 use SykesCottages\BranchPrune\Options;
 use SykesCottages\BranchPrune\Runner;
 

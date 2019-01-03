@@ -21,7 +21,7 @@ class BitbucketTest extends TestCase
         $this->bitbucket = new Bitbucket($this->connection, $this->options);
     }
 
-    public function testAllBranches()
+    public function testAllBranches(): void
     {
         $this->connection->method('get')
             ->willReturn((object) [
@@ -38,7 +38,7 @@ class BitbucketTest extends TestCase
         $this->assertEquals('test', $branches[0]->name);
     }
 
-    public function testDeleteBranch()
+    public function testDeleteBranch(): void
     {
         $this->connection->method('delete')
             ->willReturn(null);
@@ -46,7 +46,7 @@ class BitbucketTest extends TestCase
         $this->assertTrue($this->bitbucket->deleteBranch('test'));
     }
 
-    public function testCodeOnMaster()
+    public function testCodeOnMaster(): void
     {
         $this->connection->method('get')
             ->willReturn((object) [
@@ -58,7 +58,7 @@ class BitbucketTest extends TestCase
         $this->assertTrue($this->bitbucket->checkForCodeOnMaster('abcd'));
     }
 
-    public function testCodeNotOnMaster()
+    public function testCodeNotOnMaster(): void
     {
         $this->connection->method('get')
             ->willReturn((object) [

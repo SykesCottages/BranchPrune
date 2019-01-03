@@ -1,4 +1,5 @@
 <?php
+
 namespace SykesCottages\BranchPruneTest;
 
 use PHPUnit\Framework\TestCase;
@@ -6,7 +7,7 @@ use SykesCottages\BranchPrune\Connections\Curl;
 
 class ConnectionTest extends TestCase
 {
-    public function testMakeURL()
+    public function testMakeURL(): void
     {
         $curlInstance = new Curl('user', 'pass');
         $curl = new \ReflectionClass(Curl::class);
