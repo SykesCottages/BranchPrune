@@ -15,7 +15,7 @@ class Curl extends Connection
         $this->handle = curl_init();
     }
 
-    public function get(string $url, array $getOptions = [])
+    public function get(string $url, array $getOptions = []): mixed
     {
         curl_reset($this->handle);
         curl_setopt_array(
@@ -31,7 +31,7 @@ class Curl extends Connection
         return json_decode(curl_exec($this->handle));
     }
 
-    public function post(string $url, array $postOptions, array $getOptions = [])
+    public function post(string $url, array $postOptions, array $getOptions = []): mixed
     {
         curl_reset($this->handle);
         curl_setopt_array(
@@ -51,7 +51,7 @@ class Curl extends Connection
         return json_decode(curl_exec($this->handle));
     }
 
-    public function delete(string $url, array $postOptions, array $getOptions = [])
+    public function delete(string $url, array $postOptions, array $getOptions = []): mixed
     {
         curl_reset($this->handle);
         curl_setopt_array(

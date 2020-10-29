@@ -18,7 +18,7 @@ abstract class Connection
 
     abstract public function delete(string $url, array $postOptions, array $getOptions = []);
 
-    protected function makeURL(string $url, array $getOptions)
+    protected function makeURL(string $url, array $getOptions): string
     {
         $parsed_url = parse_url($url);
         $query = [];
