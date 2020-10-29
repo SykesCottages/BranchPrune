@@ -3,6 +3,7 @@ namespace SykesCottages\BranchPrune;
 
 interface CodeManager
 {
+    /** @return BranchInfo[] */
     public function getAllBranches(): array;
 
     public function deleteBranch(string $branchName): bool;
