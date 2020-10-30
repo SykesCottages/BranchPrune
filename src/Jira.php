@@ -19,7 +19,7 @@ class Jira
         $this->projectKey = $options->get('project-key');
     }
 
-    public function getOpenJiraIssues()
+    public function getOpenJiraIssues(): array
     {
         $project = $this->projectKey;
 
@@ -42,6 +42,7 @@ class Jira
         if (!$result || !$result->issues) {
             throw new Exception("No Open issues, there needs to be at least one open");
         }
+
         $issues = [];
         foreach ($result->issues as $issue) {
             $issues[] = $issue->key;
