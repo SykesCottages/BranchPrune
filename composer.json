@@ -1,6 +1,6 @@
 {
     "require": {
-      "vlucas/phpdotenv": "^v2.5",
+      "vlucas/phpdotenv": "^v5.5.0",
       "ext-json": "*"
     },
   "autoload": {
