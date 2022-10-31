@@ -19,12 +19,18 @@ class Runner
      * @var Options
      */
     private $options;
+    
+    private $notAllowedNames;
 
     public function __construct(Jira $jira, CodeManager $manager, Options $options)
     {
-        $this->jira = $jira;
-        $this->manager = $manager;
-        $this->options = $options;
+        $this->jira            = $jira;
+        $this->manager         = $manager;
+        $this->options         = $options;
+        $this->notAllowedNames = [
+            'master',
+            'main'
+        ];
     }
 
     public function cleanBranches()
@@ -50,7 +56,7 @@ class Runner
         }
 
         foreach ($this->manager->getAllBranches() as $branch) {
-            if ($branch->name != "master" && $branch->name != "main" &&
+            if (!in_array($branch->name, $this->notAllowedNames)) &&
                 str_replace($searchStrings, '', $branch->name) == $branch->name &&
                 (!$checkCodeOnMaster || $this->manager->checkForCodeOnMaster($branch->commitRef) )
             ) {
