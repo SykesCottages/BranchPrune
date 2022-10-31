@@ -50,7 +50,7 @@ class Runner
         }
 
         foreach ($this->manager->getAllBranches() as $branch) {
-            if ($branch->name != "master" &&
+            if ($branch->name != "master" && $branch->name != "main" &&
                 str_replace($searchStrings, '', $branch->name) == $branch->name &&
                 (!$checkCodeOnMaster || $this->manager->checkForCodeOnMaster($branch->commitRef) )
             ) {
